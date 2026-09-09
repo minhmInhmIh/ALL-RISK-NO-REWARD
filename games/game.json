@@ -1,0 +1,88 @@
+{
+    "number_of_players": 10,
+    "starting_money": 30000,
+    "products": {
+        "building": {
+            "formula": {
+                "wood": 3,
+                "brick": 2,
+                "metal": 1
+            }
+        }
+    },
+
+    "phases": [
+        {
+            "type":"lobby",
+            "round": 0
+        },
+        {
+            "type": "auction",
+            "round": 1
+        },
+        {
+            "type": "trade",
+            "round": 1,
+            "duration_seconds": 300
+        },
+        {
+            "type": "auction",
+            "round": 2
+        },
+        {
+            "type": "trade",
+            "round": 2,
+            "duration_seconds": 300
+        }
+    ],
+
+    "resources": {
+        "wood": {
+            "production_cost": 30
+        },
+        "brick": {
+            "production_cost": 40
+        },
+        "metal": {
+            "production_cost": 55
+        }
+    },
+
+    "machines": [
+        {
+            "name" : "wood_machine",
+            "produces": "wood",
+            "starting_cost": 200,
+            "batch": 3,
+            "amount": 4
+        },
+        {
+            "name" : "brick_machine",
+            "produces": "brick",
+            "starting_cost": 250,
+            "batch": 3,
+            "amount": 3
+        },
+        {
+            "name" : "metal_machine",
+            "produces": "metal",
+            "starting_cost": 300,
+            "batch": 3,
+            "amount": 3
+        }
+    ],
+
+    "auction_distribution": {
+        "round_1": {
+            "wood_machine": 3,
+            "brick_machine": 2,
+            "metal_machine": 2
+        },
+
+        "round_2": {
+            "wood_machine": 1,
+            "brick_machine": 1,
+            "metal_machine": 1
+        }
+    }
+}
