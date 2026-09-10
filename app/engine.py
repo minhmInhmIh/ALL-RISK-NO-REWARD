@@ -1,6 +1,10 @@
 import json
+from pathlib import Path
 
-with open(r"C:\Code\game\games\game.json", "r") as file:
+BASE_DIR = Path(__file__).resolve().parent.parent
+GAME_PATH = BASE_DIR / "games" / "game.json"
+
+with open(GAME_PATH, "r") as file:
     game = json.load(file)
 
 class GameState:

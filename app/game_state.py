@@ -28,3 +28,4 @@ def nameToPlayer(name):
 
 gameState = GameState(game["phases"][current_phase_index]["type"], game["phases"][current_phase_index]["round"], players)
 
+next_player_id = 0
