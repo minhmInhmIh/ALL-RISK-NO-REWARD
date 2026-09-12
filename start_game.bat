@@ -4,4 +4,6 @@ start cmd /k "cd /d %~dp0app && python -m uvicorn app:app --reload --host 0.0.0.
 
 start cmd /k "cd /d %~dp0frontend && npm run dev -- --host 0.0.0.0"
 
+echo Game Started.
+
 exit
