@@ -85,7 +85,7 @@ Use the IP address of the network that the other players can reach.
 Run:
 
 ```bat
-setup.bat
+./setup.bat
 ```
 
 The script will ask:
@@ -125,7 +125,7 @@ VITE_IP_ADDRESS=YOUR_IP
 Run:
 
 ```bat
-start.bat
+./start.bat
 ```
 
 Two terminal windows should open:
