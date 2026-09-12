@@ -1,6 +1,7 @@
 import JoinForm from "./join_form.jsx";
 import PLayerList from "./playerList.jsx";
 import Countdown from "./countdown.jsx";
+import LeaveButton from "./leave_button.jsx";
 import React, { useState , useEffect} from "react";
 
 function Join() {
@@ -43,6 +44,22 @@ function Join() {
           })
           .catch(error => console.error("Error fetching game info:", error));
   }
+  function leaveGame(){
+    const URL = `http://${ip_address}:8000/leave`;
+    fetch(URL, {
+      method : "POST",
+      headers : {
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({ player_id: Number(playerId) })
+    })
+    .then(response => {
+      if(response.ok) {
+        sessionStorage.removeItem("player_id")
+        setPlayerId(null)
+      }
+    })
+  }
   return (
     <div>
       <h1>Welcome to ALL RISK NO REWARD</h1>
@@ -51,6 +68,10 @@ function Join() {
       )}
       <PLayerList players_names={playersName} number_of_players_joined={playersName.length} max_players={maxPlayers} />
       <Countdown countdown = {countdown} maxPlayerReached = {maxPlayerReached}/>
+      {playerId !== null && (
+        <LeaveButton leaveGame={leaveGame}/>
+      )}
+      
     </div>
 
   );

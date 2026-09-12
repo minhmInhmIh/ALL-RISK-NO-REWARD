@@ -9,10 +9,11 @@ current_phase_index = 0
 maxed_players_reached = False
 countdown_finished = False
 
-def nameToPlayer(name):
-    for name in players_name:
+def nameToPlayer():
+    for lobby_player in players_name:
         player = {
-            "name" : name,
+            "player_id" : lobby_player["id"],
+            "name" : lobby_player["name"],
             "money" : game["starting_money"],
             "machines" : [],
             "resources" : {

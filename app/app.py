@@ -25,7 +25,9 @@ ip_address = os.getenv("IP_ADDRESS")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173",f"http://{ip_address}:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        f"http://{ip_address}:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +35,10 @@ app.add_middleware(
 
 class Player(BaseModel):
     name: str
+
+class LeaveRequest(BaseModel):
+    player_id: int
+
 
 connections = []
 
@@ -74,12 +80,14 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.post("/join")
 async def join_game(player: Player):
     player_id = game_state.next_player_id
-    if player.name in game_state.players_name:
-        raise HTTPException(
-            status_code=409,
-            detail="Player name already exists"
-        )
-    game_state.players_name.append(player.name)
+    for lobby_player in game_state.players_name:
+        if player.name == lobby_player["name"]:
+            raise HTTPException(
+                status_code=409,
+                detail="Player name already exists"
+            )
+
+    game_state.players_name.append({"name" : player.name, "player_id" : player_id})
     game_state.next_player_id += 1
     print(f"Player {player.name} joined the game. Total players: {len(game_state.players_name)}")
     await broadcast({
@@ -88,8 +96,9 @@ async def join_game(player: Player):
     })
     await start_countdown(5)
     if game_state.countdown_finished:
-        game_state.nameToPlayer(player.name)
+        game_state.nameToPlayer()
         return {
+            "player_id" : player_id,
             "name" : player.name,
             "money" : game["starting_money"],
             "machines" : [],
@@ -106,6 +115,21 @@ async def join_game(player: Player):
         "name" : player.name,
         "player_id" : player_id
     }
+
+@app.post("/leave")
+async def leave_game(request: LeaveRequest):
+    for lobby_player in game_state.players_name:
+        if request.player_id == lobby_player["player_id"]:
+            game_state.players_name.remove(lobby_player)
+            await broadcast({
+                "type" : "players_updated",
+                "players" : game_state.players_name
+            })
+            return {
+                "sucess" : True
+            }
+
+
     
 
 @app.get("/game-info")

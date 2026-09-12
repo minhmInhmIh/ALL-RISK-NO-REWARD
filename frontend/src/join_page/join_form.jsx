@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 const ip_address = import.meta.env.VITE_IP_ADDRESS;
+console.log(ip_address)
 function JoinForm(props) {
     const [name, setName] = useState("");
 

@@ -6,8 +6,8 @@ function PlayerList(props){
             <div className="player-list">
                 <h2>Players</h2>
                 <ul>
-                    {props.players_names.map((name, index) => (
-                        <li key={index}>{name}</li>
+                    {props.players_names.map((player) => (
+                        <li key={player.id}>{player.name}</li>
                     ))}
                 </ul>
             </div>
